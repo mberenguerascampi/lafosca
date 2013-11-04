@@ -12,11 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends Activity {
+	private ApiLafosca api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        //Inicializamos la api
+        api = new ApiLafosca();
         
         //Le añadimos al botón de crear usuario la accion que debe realizar
         Button createUserBtn = (Button)findViewById(R.id.create_button);
@@ -24,6 +28,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
             	onCreateUserButtonPressed();
+            }
+        });
+        
+      //Le añadimos al botón de login la accion que debe realizar
+        Button loginBtn = (Button)findViewById(R.id.login_button);
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	onLoginButtonPressed();
             }
         });
     }
@@ -34,12 +47,20 @@ public class MainActivity extends Activity {
     private void onCreateUserButtonPressed(){
     	EditText username = (EditText)findViewById(R.id.username_editText);
     	EditText password = (EditText)findViewById(R.id.password_editText);
-    	ApiLafosca api = new ApiLafosca();
     	try {
 			api.createNewUser(username.getText().toString(), password.getText().toString(), this.getBaseContext());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    /**
+     * Función que permite hacer login con el usuario creado
+     */
+    private void onLoginButtonPressed(){
+    	EditText username = (EditText)findViewById(R.id.username_editText);
+    	EditText password = (EditText)findViewById(R.id.password_editText);
+    	api.logInUser(username.getText().toString(), password.getText().toString(), this.getBaseContext());
     }
 
     @Override

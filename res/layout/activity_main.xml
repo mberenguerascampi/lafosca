@@ -42,10 +42,19 @@
     <Button 
         android:id="@+id/create_button"
         android:layout_below="@+id/password_editText"
-        android:layout_width="250dip"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
         android:text="@string/button_create_text"
+        />
+    
+    <Button 
+        android:id="@+id/login_button"
+        android:layout_below="@+id/create_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:text="@string/button_login_text"
         />
     
 

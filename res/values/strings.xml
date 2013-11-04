@@ -9,5 +9,6 @@
     <string name="create_username_hint">Type a name</string>
     <string name="create_password_hint">Type a password</string>
     <string name="button_create_text">Create a new user</string>
+    <string name="button_login_text">Login</string>
 
 </resources>

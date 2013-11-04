@@ -7,13 +7,17 @@ import java.io.InputStreamReader;
 
 import com.example.utils.*;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthenticationException;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
@@ -24,6 +28,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 
@@ -36,6 +41,8 @@ public class ApiLafosca {
 	JSONObject json;
 	ApiDelegate delegate;
 	int statusCode;
+	String loginUser = "";
+	String loginPassword = "";
 	
 	/**
 	 * Constructor de la clase
@@ -86,7 +93,9 @@ public class ApiLafosca {
 		startPostRequest(LaFoscaConstants.API_DEFAULT_BASE_URL+"users", ApiReturnType.kUser, context, jsonUser);
 	}
 	
-	public void logInUser(Context context){
+	public void logInUser(String username, String password, Context context){
+		loginUser = username;
+		loginPassword = password;
 		startGetRequest(LaFoscaConstants.API_DEFAULT_BASE_URL+"user", ApiReturnType.kUser, context);
 	}
 	
@@ -159,6 +168,24 @@ public class ApiLafosca {
 
 		    // Prepare a request object
 		    HttpGet httpget = new HttpGet(url); 
+		    
+		    //Añadimos la autorización en el caso oportuno
+		    if (!loginUser.equals("")){
+		    	 Log.i("USER", loginUser);
+		    	 UsernamePasswordCredentials credentials =
+		                 new UsernamePasswordCredentials(loginUser, loginPassword);
+		             BasicScheme scheme = new BasicScheme();
+		             Header authorizationHeader;
+					try {
+						authorizationHeader = scheme.authenticate(credentials, httpget);
+						httpget.addHeader(authorizationHeader);
+						httpget.setHeader("Accept", "application/json");
+						httpget.setHeader("Content-type", "application/json");
+					} catch (AuthenticationException e) {
+						e.printStackTrace();
+					}
+		    }
+		
 		    HttpResponse response = null;
 
 		    try {
@@ -178,12 +205,10 @@ public class ApiLafosca {
 				HttpEntity entity = response.getEntity();
 
 		        if (entity != null){
-		            InputStream instream = entity.getContent();
-			        String strResult = convertStreamToString(instream);
-			        json = new JSONObject(strResult);
-			        instream.close();
-			                
-			            //statusCode = response.getStatusLine().getStatusCode();
+		        	String temp = EntityUtils.toString(entity);
+					Log.i("Login form POST result: ", response.getStatusLine().toString());
+					json=new JSONObject(temp);
+					Log.i("RESPONSE JSON",temp);
 		        }
 			} 
 			catch (IllegalStateException e){
@@ -209,7 +234,7 @@ public class ApiLafosca {
 			statusCode = result.getStatusLine().getStatusCode();
 				
 			//Miramos si hay error o no y redireccionamos
-			if(statusCode == 201){
+			if(statusCode == 200){
 				requestSuccess(returnType);
 			}
 			else{
