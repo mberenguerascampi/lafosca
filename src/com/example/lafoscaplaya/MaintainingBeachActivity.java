@@ -181,6 +181,9 @@ public class MaintainingBeachActivity extends Activity implements ApiDelegate{
 		stateText.setVisibility(View.VISIBLE);
 		String state = json.getString("state");
 		closed = (state.equals("closed"));
+		if(!closed){
+			beach = new Beach(json);
+		}
 		stateText.setText(json.toString());
 	}
 	
@@ -217,7 +220,6 @@ public class MaintainingBeachActivity extends Activity implements ApiDelegate{
 		switch(response){
 			case kBeach:
 				try {
-					beach = new Beach((JSONObject)pid);
 					setStateText((JSONObject)pid);
 				} catch (JSONException e) {
 					e.printStackTrace();

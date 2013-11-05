@@ -16,6 +16,15 @@
         android:text="@string/get_beach_state"
         />
     
+     <ImageView 
+        android:id="@+id/img"
+        android:layout_below="@+id/beach_state_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:src="@drawable/lafosca1"
+        />
+    
      <Button 
         android:id="@+id/open_close_button"
         android:layout_below="@+id/beach_state_button"
