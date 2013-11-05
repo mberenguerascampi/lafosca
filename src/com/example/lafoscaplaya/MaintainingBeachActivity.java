@@ -1,14 +1,19 @@
 package com.example.lafoscaplaya;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.api.ApiDelegate;
 import com.example.api.ApiLafosca;
 import com.example.api.ApiReturnType;
+import com.example.container.Beach;
+import com.example.container.Kid;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +25,7 @@ public class MaintainingBeachActivity extends Activity implements ApiDelegate{
 	private ApiLafosca api;
 	private boolean closed;
 	private boolean firstGetState = false;
+	private Beach beach = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,43 @@ public class MaintainingBeachActivity extends Activity implements ApiDelegate{
             	niveaRain();
             }
         });
+        
+      //Le añadimos al botón de buscar niños la accion que debe realizar
+        Button childrenBtn = (Button)findViewById(R.id.children_button);
+        childrenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	findChildren();
+            }
+        });
+	}
+	
+	/**
+	 * Función que implementa la funcionalidad de buscar niños
+	 */
+	private void findChildren(){
+		if(firstGetState && !closed){
+			Intent intent = new Intent(MaintainingBeachActivity.this, FindChildrenActivity.class);
+			intent.putExtra("kids", getKidsName());
+			startActivity(intent);
+		}
+		else if (!firstGetState){
+			showErrorText(getString(R.string.state_beach_error));
+		}
+		else{
+			showErrorText(getString(R.string.open_beach_error));
+		}
+	}
+	
+	private String[] getKidsName(){
+		ArrayList<Kid> kids = beach.getKids();
+		String[] ret = new String[kids.size()];
+		int i = 0;
+		for(Kid iKid:kids){
+			ret[i] = iKid.getName();
+			++i;
+		}
+		return ret;
 	}
 	
 	/**
@@ -174,6 +217,7 @@ public class MaintainingBeachActivity extends Activity implements ApiDelegate{
 		switch(response){
 			case kBeach:
 				try {
+					beach = new Beach((JSONObject)pid);
 					setStateText((JSONObject)pid);
 				} catch (JSONException e) {
 					e.printStackTrace();

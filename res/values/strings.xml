@@ -29,5 +29,6 @@
     <string name="close_beach_error">You have to close the beach before performing this action</string>
     <string name="state_beach_error">You have to get the state of the beach before performing this action</string>
     <string name="title_activity_find_children">FindChildrenActivity</string>
+    <string name="search_text">Searching</string>
 
 </resources>

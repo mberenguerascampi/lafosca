@@ -24,18 +24,20 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000d;
-        public static final int beach_state_button=0x7f080007;
-        public static final int children_button=0x7f08000b;
-        public static final int clean_button=0x7f080009;
+        public static final int action_settings=0x7f08000f;
+        public static final int beach_state_button=0x7f080009;
+        public static final int children_button=0x7f08000d;
+        public static final int clean_button=0x7f08000b;
         public static final int create_button=0x7f080004;
-        public static final int error_text=0x7f080005;
-        public static final int login_button=0x7f080006;
-        public static final int nivea_button=0x7f08000a;
-        public static final int open_close_button=0x7f080008;
+        public static final int error_text=0x7f080007;
+        public static final int list=0x7f080006;
+        public static final int login_button=0x7f080008;
+        public static final int nivea_button=0x7f08000c;
+        public static final int open_close_button=0x7f08000a;
         public static final int password_create=0x7f080002;
         public static final int password_editText=0x7f080003;
-        public static final int state_text=0x7f08000c;
+        public static final int search_editText=0x7f080005;
+        public static final int state_text=0x7f08000e;
         public static final int username_create=0x7f080000;
         public static final int username_editText=0x7f080001;
     }
@@ -76,6 +78,7 @@ public final class R {
         public static final int open_beach=0x7f050011;
         public static final int open_beach_error=0x7f050018;
         public static final int open_close_btn_text=0x7f050010;
+        public static final int search_text=0x7f05001c;
         public static final int state_beach_error=0x7f05001a;
         public static final int title_activity_create_user=0x7f05000a;
         public static final int title_activity_find_children=0x7f05001b;
