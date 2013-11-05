@@ -38,17 +38,18 @@ import android.util.Log;
  *
  */
 public class ApiLafosca {
-	JSONObject json;
-	ApiDelegate delegate;
-	int statusCode;
-	String loginUser = "";
-	String loginPassword = "";
+	private JSONObject json;
+	private ApiDelegate delegate;
+	private int statusCode;
+	private String loginUser = "";
+	private String loginPassword = "";
+	private String errorMsg = "";
 	
 	/**
 	 * Constructor de la clase
 	 */
-	public ApiLafosca() {
-		// TODO Auto-generated constructor stub
+	public ApiLafosca(ApiDelegate delegate) {
+		this.delegate = delegate;
 	}
 	
 	/**
@@ -93,6 +94,12 @@ public class ApiLafosca {
 		startPostRequest(LaFoscaConstants.API_DEFAULT_BASE_URL+"users", ApiReturnType.kUser, context, jsonUser);
 	}
 	
+	/**
+	 * Método que permite hace login en la aplicación
+	 * @param username nombre de usuario
+	 * @param password contraseña del usuario
+	 * @param context contexto de la aplicación
+	 */
 	public void logInUser(String username, String password, Context context){
 		loginUser = username;
 		loginPassword = password;
@@ -105,7 +112,7 @@ public class ApiLafosca {
 	 * @param returnType Tipo de objeto 
 	 */
 	private void requestError(int statusCode, ApiReturnType returnType){
-		
+		delegate.requestFailed(errorMsg, returnType);
 	}
 	
 	/**
@@ -113,7 +120,7 @@ public class ApiLafosca {
 	 * @param returnType Tipo de objeto
 	 */
 	private void requestSuccess(ApiReturnType returnType){
-		
+		delegate.requestSucceded(json, returnType);
 	}
 	
 	/**
@@ -206,7 +213,7 @@ public class ApiLafosca {
 
 		        if (entity != null){
 		        	String temp = EntityUtils.toString(entity);
-					Log.i("Login form POST result: ", response.getStatusLine().toString());
+					errorMsg =  response.getStatusLine().toString();
 					json=new JSONObject(temp);
 					Log.i("RESPONSE JSON",temp);
 		        }
@@ -297,14 +304,9 @@ public class ApiLafosca {
 
 				if (entity != null) {
 					String temp = EntityUtils.toString(entity);
-					Log.i("Login form POST result: ", response.getStatusLine().toString());
+					errorMsg =  response.getStatusLine().toString();
 					json=new JSONObject(temp);
 					Log.i("RESPONSE",temp);
-//					InputStream instream = entity.getContent();
-//					String strResult = convertStreamToString(instream);
-//					json = new JSONObject(strResult);
-//					instream.close();
-
 				}
 			} catch (IllegalStateException e) {
 				e.printStackTrace();

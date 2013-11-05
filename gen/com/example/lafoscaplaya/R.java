@@ -24,19 +24,24 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080006;
+        public static final int action_settings=0x7f080007;
         public static final int create_button=0x7f080004;
-        public static final int login_button=0x7f080005;
+        public static final int error_text=0x7f080005;
+        public static final int login_button=0x7f080006;
         public static final int password_create=0x7f080002;
         public static final int password_editText=0x7f080003;
         public static final int username_create=0x7f080000;
         public static final int username_editText=0x7f080001;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
+        public static final int activity_create_user=0x7f030000;
+        public static final int activity_login=0x7f030001;
+        public static final int activity_main=0x7f030002;
     }
     public static final class menu {
-        public static final int main=0x7f070000;
+        public static final int create_user=0x7f070000;
+        public static final int login=0x7f070001;
+        public static final int main=0x7f070002;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -48,6 +53,11 @@ public final class R {
         public static final int create_username=0x7f050003;
         public static final int create_username_hint=0x7f050005;
         public static final int hello_world=0x7f050002;
+        public static final int login_error=0x7f05000d;
+        public static final int login_successful=0x7f05000c;
+        public static final int title_activity_create_user=0x7f05000a;
+        public static final int title_activity_login=0x7f050009;
+        public static final int user_created=0x7f05000b;
     }
     public static final class style {
         /** 

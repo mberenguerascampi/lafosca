@@ -6,5 +6,6 @@ package com.example.api;
  * 
  **/
 public interface ApiDelegate {
-
+	public void requestSucceded(Object pid, ApiReturnType response);
+	public void requestFailed(String msn, ApiReturnType response);
 }

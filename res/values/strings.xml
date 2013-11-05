@@ -10,5 +10,10 @@
     <string name="create_password_hint">Type a password</string>
     <string name="button_create_text">Create a new user</string>
     <string name="button_login_text">Login</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_create_user">CreateUserActivity</string>
+    <string name="user_created">User created</string>
+    <string name="login_successful">Login successful</string>
+    <string name="login_error">Incorrect username or password. Make sure that they are typed correctly.</string>
 
 </resources>
