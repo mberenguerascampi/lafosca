@@ -16,6 +16,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -80,6 +81,18 @@ public class ApiLafosca {
 	}
 	
 	/**
+	 * Función que permite realizar una petición de PUT a la api
+	 * @param url Direccion donde realizar la petición
+	 * @param type tipo de petición
+	 * @param context contexto de la aplicación
+	 */
+	private void startPutRequest(String url, ApiReturnType type, Context context)
+	{
+		json = null;
+		new ApiThreadPut(type, url, context).execute();
+	}
+	
+	/**
 	 * Funcion que crea un nuevo usario
 	 * @param username Nombre del nuevo usuario
 	 * @param password Contraseña del usuario
@@ -115,6 +128,26 @@ public class ApiLafosca {
 	public void getBeachState(String authenticationToken, Context context){
 		this.authenticationToken = authenticationToken;
 		startGetRequest(LaFoscaConstants.API_DEFAULT_BASE_URL+"state", ApiReturnType.kBeach, context);
+	}
+	
+	/**
+	 * Método que permite abrir la playa
+	 * @param authenticationToken token para obtener la autorización de acceso
+	 * @param context contexto de la aplicación
+	 */
+	public void openBeach(String authenticationToken, Context context){
+		this.authenticationToken = authenticationToken;
+		startPutRequest(LaFoscaConstants.API_DEFAULT_BASE_URL+"open", ApiReturnType.kOpenBeach, context);
+	}
+	
+	/**
+	 * Método que permite cerrar la playa
+	 * @param authenticationToken token para obtener la autorización de acceso
+	 * @param context contexto de la aplicación
+	 */
+	public void closeBeach(String authenticationToken, Context context){
+		this.authenticationToken = authenticationToken;
+		startPutRequest(LaFoscaConstants.API_DEFAULT_BASE_URL+"close", ApiReturnType.KCloseBeach, context);
 	}
 	
 	/**
@@ -351,6 +384,95 @@ public class ApiLafosca {
 				requestSuccess(returnType);
 			}
 			else {
+				requestError(statusCode, returnType);
+			}
+		}
+	}
+	
+	
+	/**
+	 * Thread que nos permite realizar una petición de PUT de forma asíncrona
+	 * @author Marc
+	 *
+	 */
+	public class ApiThreadPut extends AsyncTask<Void, Void, HttpResponse> {
+		ApiReturnType returnType;
+		String url;
+		Context context;
+			
+		public ApiThreadPut(ApiReturnType type, String loadUrl, Context context) {
+			returnType = type;
+			url = loadUrl;
+			this.context = context;
+		}
+
+		protected HttpResponse doInBackground(Void...voids) {
+			HttpParams httpParameters = new BasicHttpParams();
+			int timeoutConnection = 30000;
+			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+				
+			HttpClient httpclient = new DefaultHttpClient(httpParameters);
+
+		    // Prepare a request object
+		    HttpPut httpput = new HttpPut(url); 
+		    
+		    //Añadimos la autorización en el caso oportuno
+		    if (!authenticationToken.equals("")){
+		    		httpput.setHeader("Authorization", "Token token="
+		                     + authenticationToken);
+		    		httpput.setHeader("Accept", "application/json");
+		    		httpput.setHeader("Content-type", "application/json");
+		    }
+		
+		    HttpResponse response = null;
+
+		    try {
+		    	response = httpclient.execute(httpput);
+		    }
+		    catch (ClientProtocolException e) {
+		        e.printStackTrace();
+		    } 
+		    catch (IOException e) {
+		    	e.printStackTrace();
+		    } 
+		        
+		    if(response == null) return null;
+		        
+		    try {
+				//obtenemos la respuesta
+				HttpEntity entity = response.getEntity();
+
+		        if (entity != null){
+		        	String temp = EntityUtils.toString(entity);
+					errorMsg =  response.getStatusLine().toString();
+					//json=new JSONObject(temp);
+					Log.i("RESPONSE JSON",temp);
+		        }
+			} 
+			catch (IllegalStateException e){
+				e.printStackTrace();
+			} 
+			catch (IOException e){
+				e.printStackTrace();
+			} 
+		        
+		    return response;
+		}
+			
+		//Se ejecuta en el UI thread
+		protected void onPostExecute(HttpResponse result){
+			if(result == null){
+				requestError(0, returnType);
+				return;
+			}
+				
+			statusCode = result.getStatusLine().getStatusCode();
+				
+			//Miramos si hay error o no y redireccionamos
+			if(statusCode == 200){
+				requestSuccess(returnType);
+			}
+			else{
 				requestError(statusCode, returnType);
 			}
 		}

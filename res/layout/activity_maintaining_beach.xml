@@ -15,5 +15,22 @@
         android:layout_marginTop="20dip"
         android:text="@string/get_beach_state"
         />
+    
+     <Button 
+        android:id="@+id/open_close_button"
+        android:layout_below="@+id/beach_state_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:text="@string/open_close_btn_text"
+        />
+     
+     <TextView 
+        android:id="@+id/state_text"
+        android:layout_below="@+id/open_close_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+         />
 
 </RelativeLayout>

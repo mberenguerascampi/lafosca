@@ -17,5 +17,8 @@
     <string name="login_error">Incorrect username or password. Make sure that they are typed correctly.</string>
     <string name="title_activity_maintaining_beach">MaintainingBeachActivity</string>
     <string name="get_beach_state">Get beach state</string>
+    <string name="open_close_btn_text">Open/Close beach</string>
+    <string name="open_beach">The beach has been opened</string>
+    <string name="close_beach">The beach has been closed</string>
 
 </resources>
