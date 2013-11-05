@@ -1,12 +1,16 @@
 package com.example.lafoscaplaya;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.example.api.ApiDelegate;
 import com.example.api.ApiLafosca;
 import com.example.api.ApiReturnType;
 
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity implements ApiDelegate {
+	private String authenticationToken;
 	private ApiLafosca api;
 
 	@Override
@@ -51,13 +56,15 @@ public class LoginActivity extends Activity implements ApiDelegate {
     	api.logInUser(username.getText().toString(), password.getText().toString(), this.getBaseContext());
     }
     
-    private void finishActivityAfterToastDisappears(){
+    private void StartNewActivityAfterToastDisappears(){
     	Thread thread = new Thread(){
             @Override
            public void run() {
                 try {
                    Thread.sleep(3500); // As I am using LENGTH_LONG in Toast
-                   LoginActivity.this.finish();
+                   Intent intent = new Intent(LoginActivity.this, MaintainingBeachActivity.class);
+                   intent.putExtra("authenticationToken", authenticationToken);
+                   startActivity(intent);
                } catch (Exception e) {
                    e.printStackTrace();
                }
@@ -69,11 +76,24 @@ public class LoginActivity extends Activity implements ApiDelegate {
     //Funciones que implementan el ApiDelegate
 	@Override
 	public void requestSucceded(Object pid, ApiReturnType response) {
+		//Obtenemos la correspondiente información
+		JSONObject json = (JSONObject)pid;
+		try {
+			authenticationToken = json.getString("authentication_token");
+			Log.i("authentication_token", authenticationToken);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		//Ocultamos el mensaje de error si estava visible y mostramos un Toast indicando 
+		//que la petición se ha realizado correctamente
 		TextView errorText = (TextView)findViewById(R.id.error_text);
 		errorText.setVisibility(View.GONE);
 		Toast.makeText(getApplicationContext(), getString(R.string.login_successful),
 				   Toast.LENGTH_LONG).show();
-		finishActivityAfterToastDisappears();
+		
+		//Empezamos una nueva activity
+		StartNewActivityAfterToastDisappears();
 	}
 
 	@Override

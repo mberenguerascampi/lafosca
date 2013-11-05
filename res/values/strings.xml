@@ -13,7 +13,9 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_create_user">CreateUserActivity</string>
     <string name="user_created">User created</string>
-    <string name="login_successful">Login successful</string>
+    <string name="login_successful">Login successfully</string>
     <string name="login_error">Incorrect username or password. Make sure that they are typed correctly.</string>
+    <string name="title_activity_maintaining_beach">MaintainingBeachActivity</string>
+    <string name="get_beach_state">Get beach state</string>
 
 </resources>

@@ -44,6 +44,7 @@ public class ApiLafosca {
 	private String loginUser = "";
 	private String loginPassword = "";
 	private String errorMsg = "";
+	private String authenticationToken = "";
 	
 	/**
 	 * Constructor de la clase
@@ -104,6 +105,16 @@ public class ApiLafosca {
 		loginUser = username;
 		loginPassword = password;
 		startGetRequest(LaFoscaConstants.API_DEFAULT_BASE_URL+"user", ApiReturnType.kUser, context);
+	}
+	
+	/**
+	 * Método que permite obtener el estado de la playa
+	 * @param authenticationToken token para obtener la autorización de acceso
+	 * @param context contexto de la aplicación
+	 */
+	public void getBeachState(String authenticationToken, Context context){
+		this.authenticationToken = authenticationToken;
+		startGetRequest(LaFoscaConstants.API_DEFAULT_BASE_URL+"state", ApiReturnType.kBeach, context);
 	}
 	
 	/**
@@ -177,7 +188,7 @@ public class ApiLafosca {
 		    HttpGet httpget = new HttpGet(url); 
 		    
 		    //Añadimos la autorización en el caso oportuno
-		    if (!loginUser.equals("")){
+		    if (returnType.equals(ApiReturnType.kUser) && !loginUser.equals("")){
 		    	 Log.i("USER", loginUser);
 		    	 UsernamePasswordCredentials credentials =
 		                 new UsernamePasswordCredentials(loginUser, loginPassword);
@@ -191,6 +202,13 @@ public class ApiLafosca {
 					} catch (AuthenticationException e) {
 						e.printStackTrace();
 					}
+		    }
+		    
+		    else if (returnType.equals(ApiReturnType.kBeach) && !authenticationToken.equals("")){
+					httpget.setHeader("Authorization", "Token token="
+		                     + authenticationToken);
+					httpget.setHeader("Accept", "application/json");
+					httpget.setHeader("Content-type", "application/json");
 		    }
 		
 		    HttpResponse response = null;

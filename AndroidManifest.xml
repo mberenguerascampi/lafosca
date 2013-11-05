@@ -33,6 +33,10 @@
             android:name="com.example.lafoscaplaya.CreateUserActivity"
             android:label="@string/title_activity_create_user" >
         </activity>
+        <activity
+            android:name="com.example.lafoscaplaya.MaintainingBeachActivity"
+            android:label="@string/title_activity_maintaining_beach" >
+        </activity>
     </application>
 
 </manifest>
