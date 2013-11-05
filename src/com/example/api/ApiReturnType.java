@@ -5,6 +5,8 @@ public enum ApiReturnType
 	kUser,
 	kBeach,
 	kOpenBeach,
-	KCloseBeach
+	KCloseBeach,
+	kCleanBeach,
+	kNivea
 }
 

@@ -20,5 +20,14 @@
     <string name="open_close_btn_text">Open/Close beach</string>
     <string name="open_beach">The beach has been opened</string>
     <string name="close_beach">The beach has been closed</string>
+    <string name="clean_beach">The beach has been cleaned</string>
+    <string name="nivea_rain">Throwing NIVEA beach balls to our visitors</string>
+    <string name="clean_btn_text">Clean beach</string>
+    <string name="nivea_btn_text">Nivea rain</string>
+    <string name="children_btn_text">Find children</string>
+    <string name="open_beach_error">You have to open the beach before performing this action</string>
+    <string name="close_beach_error">You have to close the beach before performing this action</string>
+    <string name="state_beach_error">You have to get the state of the beach before performing this action</string>
+    <string name="title_activity_find_children">FindChildrenActivity</string>
 
 </resources>

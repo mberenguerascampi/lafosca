@@ -37,6 +37,10 @@
             android:name="com.example.lafoscaplaya.MaintainingBeachActivity"
             android:label="@string/title_activity_maintaining_beach" >
         </activity>
+        <activity
+            android:name="com.example.lafoscaplaya.FindChildrenActivity"
+            android:label="@string/title_activity_find_children" >
+        </activity>
     </application>
 
 </manifest>

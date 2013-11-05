@@ -12,7 +12,7 @@
         android:id="@+id/beach_state_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dip"
+        android:layout_marginTop="10dip"
         android:text="@string/get_beach_state"
         />
     
@@ -21,13 +21,50 @@
         android:layout_below="@+id/beach_state_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dip"
+        android:layout_marginTop="10dip"
         android:text="@string/open_close_btn_text"
         />
      
+     <Button 
+        android:id="@+id/clean_button"
+        android:layout_below="@+id/open_close_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:text="@string/clean_btn_text"
+        />
+     
+     <Button 
+        android:id="@+id/nivea_button"
+        android:layout_below="@+id/clean_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:text="@string/nivea_btn_text"
+        />
+     
+     <Button 
+        android:id="@+id/children_button"
+        android:layout_below="@+id/nivea_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:text="@string/children_btn_text"
+        />
+     
+     <TextView 
+        android:id="@+id/error_text"
+        android:layout_below="@+id/children_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:textColor="#ff0000"
+        android:visibility="gone"
+         />
+     
      <TextView 
         android:id="@+id/state_text"
-        android:layout_below="@+id/open_close_button"
+        android:layout_below="@+id/children_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dip"

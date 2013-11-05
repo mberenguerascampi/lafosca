@@ -151,6 +151,34 @@ public class ApiLafosca {
 	}
 	
 	/**
+	 * Método que permite cerrar la playa
+	 * @param authenticationToken token para obtener la autorización de acceso
+	 * @param context contexto de la aplicación
+	 */
+	public void cleanBeach(String authenticationToken, Context context){
+		this.authenticationToken = authenticationToken;
+		try {
+			startPostRequest(LaFoscaConstants.API_DEFAULT_BASE_URL+"clean", ApiReturnType.kCleanBeach, context, null);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Método que permite cerrar la playa
+	 * @param authenticationToken token para obtener la autorización de acceso
+	 * @param context contexto de la aplicación
+	 */
+	public void niveaRain(String authenticationToken, Context context){
+		this.authenticationToken = authenticationToken;
+		try {
+			startPostRequest(LaFoscaConstants.API_DEFAULT_BASE_URL+"nivea-rain", ApiReturnType.kNivea, context, null);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Método al que se llama cuando la petición ha tenido exito
 	 * @param statusCode Código devuelto po la api
 	 * @param returnType Tipo de objeto 
@@ -322,22 +350,32 @@ public class ApiLafosca {
 
 			// Prepare a request object
 			HttpPost httppost = new HttpPost(url);
+			
+			if (!returnType.equals(ApiReturnType.kUser) && !authenticationToken.equals("")){
+				httppost.setHeader("Authorization", "Token token="
+	                     + authenticationToken);
+				httppost.setHeader("Accept", "application/json");
+				httppost.setHeader("Content-type", "application/json");
+			}
+			
 			HttpResponse response = null;
 
 			try {
-				JSONObject user;
-				try {
-					user = jsonObj[0].getJSONObject("user");
-					String nom = user.getString("username");
-					String password = user.getString("password");
-					Log.i("JSON", "Nom: " + nom + ", pass: " + password);
-				} catch (JSONException e) {
-					e.printStackTrace();
+				if(jsonObj != null && jsonObj[0] != null){
+					JSONObject user;
+					try {
+						user = jsonObj[0].getJSONObject("user");
+						String nom = user.getString("username");
+						String password = user.getString("password");
+						Log.i("JSON", "Nom: " + nom + ", pass: " + password);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					
+					
+					StringEntity entity = new StringEntity(jsonObj[0].toString());
+	                httppost.setEntity(entity); 
 				}
-				
-				
-				StringEntity entity = new StringEntity(jsonObj[0].toString());
-                httppost.setEntity(entity); 
                 httppost.setHeader("Accept", "application/json");
                 httppost.setHeader("Content-type", "application/json");
 				response = httpclient.execute(httppost);
